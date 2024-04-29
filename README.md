@@ -17,7 +17,6 @@ Results report in VFHQ implementation.
 Results reported in our implementation.
 | Method      | PSNR  | SSIM   | LPIPS | Deg  | LMD  | TLME | MSRL | | PSNR  | SSIM   | LPIPS | Deg  | LMD  | TLME | MSRL |
 |-------------|-------|--------|-------|------|------|------|------|-|-------|--------|-------|------|------|------|------|
-|             | Train & Test on Aligned Face Video |       |       |      |      |      |      | | Train & Test on Non-Aligned Face Video |       |       |      |      |      |      |
 | BasicVSR++  | 26.70 | 0.7906 | 0.3086| 38.31| 2.89 | 6.97 | 24.15| | 26.17 | 0.7482 | 0.3594| 36.14| 2.39 | 7.09 | 23.91|
 | HiFaceGAN   | 28.45 | 0.8297 | 0.2924| 34.02| 2.25 | 5.73 | 25.81| | 27.41 | 0.7926 | 0.3167| 32.74| 1.99 | 5.59 | 24.99|
 | GFP-GAN     | 27.77 | 0.8252 | 0.2893| 31.70| 2.40 | 6.11 | 25.68| | 26.27 | 0.7864 | 0.3167| 30.14| 2.13 | 6.17 | 24.69|
