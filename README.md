@@ -72,11 +72,13 @@ We provide a example in `assets/inputdemovideo.mp4`. If you would like to test y
 
 
 ### Inference
+
 **[Note]** 🚀🚀🚀  Our method does **not require pre-alignment** to standard face poses and has better consistency.
 The results will be saved in the `results` folder.
 
 
 🧑🏻 Video Face Restoration
+**It is highly recommended to use ffmpeg to enhance the encoded video online, which can maintain the restored quality as much as possible.**
 ```
 # Just Run This 
 # Input Video Width and Height == 512
