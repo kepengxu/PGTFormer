@@ -79,6 +79,7 @@ The results will be saved in the `results` folder.
 🧑🏻 Video Face Restoration
 ```
 # Just Run This 
+# Input Video Width and Height == 512
 python inference.py --input_video=assets/inputdemovideo.mp4 --output_video=exp/output_demo.mp4
 ```
 
