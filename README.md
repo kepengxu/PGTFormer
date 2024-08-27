@@ -1,4 +1,90 @@
-# PGTFormer
+<div align="center">
+
+<h1>Beyond Alignment: Blind Video Face Restoration via Parsing-Guided Temporal-Coherent Transformer</h1>
+<div>
+    <a href='https://kepengxu.github.io/' target='_blank'>Kepeng Xu</a>&emsp;
+    <a href='https://icecherylxuli.github.io/' target='_blank'>Li Xu</a>&emsp;
+    <a href='' target='_blank'>Gang He et al</a>
+</div>
+<div>
+    Xidian University,Southwest University of Science and Technology&emsp; 
+</div>
+
+<div>
+    <strong>IJCAI 2024</strong>
+</div>
+
+<div>
+    <h4 align="center">
+        <a href="https://kepengxu.github.io/projects/pgtformer/" target='_blank'>
+        <img src="https://img.shields.io/badge/🐳-Project%20Page-blue">
+        </a>
+    </h4>
+</div>
+
+
+<p align="center">
+  <img src="./assets/output.gif" alt="showcase">
+  <br>
+  🔥 For more results, visit our <a href="https://kepengxu.github.io/projects/pgtformer/"><strong>project page</strong></a> 🔥
+  <br>
+  ⭐ If you found this project helpful to your projects, please help star this repo. Thanks! 🤗
+</p>
+
+</div>
+
+
+# Update
+- **2024.08**: We released the initial version of the inference code and models. Stay tuned for continuous updates!
+- **2024.04**: This repo is created!
+
+
+# Getting Started
+
+## Dependencies and Installation
+
+required packages in `requirements`
+```
+# git clone this repository
+git clone https://github.com/kepengxu/PGTFormer
+cd PGTFormer
+
+# create new anaconda env
+conda create -n pgtformer python=3.8 -y
+conda activate pgtformer
+
+# install python dependencies
+conda install -c conda-forge dlib
+conda install -c conda-forge ffmpeg
+```
+
+## Quick Inference
+
+### Download Pre-trained Models
+All pretrained models can also be automatically downloaded during the first inference.
+You can also download our pretrained models from [Google Drive](https://drive.google.com/file/d/1DFwfPpiIxqjd-PrQ7zoKlVF4HqTM0Ops/view?usp=sharing)[BaiduYun](https://pan.baidu.com/s/1pN0u6ITT-JUFg9-PhgUkrg?pwd=pgtf) to the `weights` folder.
+
+
+### Prepare Testing Data
+We provide a example in `assets/inputdemovideo.mp4`. If you would like to test your own face videos, place them in the same folder.
+
+
+
+
+### Inference
+**[Note]** 🚀🚀🚀  Our method does **not require pre-alignment** to standard face poses and has better consistency.
+The results will be saved in the `results` folder.
+
+
+🧑🏻 Video Face Restoration
+```
+# Just Run This 
+python inference.py --input_video=assets/inputdemovideo.mp4 --output_video=exp/output_demo.mp4
+```
+
+### 🚀🚀🚀Awesome Video Face Restoration Method Can be Found There!🚀🚀🚀
+
+[Awesome Video Face Restoration](https://github.com/kepengxu/Awesome-Video-Face-Restoration/tree/main)
 
 # 🔥 News
 - *2024.04*: 🎉 This paper is accepted by IJCAI 2024
@@ -27,3 +113,31 @@
 
 # Acknowledgement
 This project is based on BasicSR. Some codes are brought from Codeformer. We also adopt the VFHQ dataset to train network.
+
+
+
+
+## Citation
+
+   If you find our repo useful for your research, please consider citing our paper:
+
+   ```bibtex
+@article{xu2024beyond,
+  title={Beyond Alignment: Blind Video Face Restoration via Parsing-Guided Temporal-Coherent Transformer},
+  author={Xu, Kepeng and Xu, Li and He, Gang and Yu, Wenxin and Li, Yunsong},
+  journal={IJCAI 2024},
+  year={2024}
+}
+   ```
+
+
+## License and Acknowledgement
+
+This project is open sourced under (https://github.com/kepengxu/PGTFormer/blob/main/LICENSE). Redistribution and use should follow this license.
+The code framework is mainly modified from CodeFormer.
+The page is modified from KEEP
+
+
+## Contact
+
+If you have any question, please feel free to contact us via `kepengxu11@gmail.com`.

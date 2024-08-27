@@ -1,0 +1,241 @@
+name: train_II_trqcodeformer
+model_type: TRQCodeFormerModel
+scale: 1
+num_gpu: auto
+manual_seed: 100
+syncbn: true
+code_only: True
+
+# dataset and data loader settings
+
+datasets:
+  train:
+    name: VFHQFULLntmeBASIC_ALIGNTRAINUP
+    type: VFHQFULLntmeBASICV2TRAINUP
+    r: 1
+    root: s3://kepengxu/vfhqfull/ntme/
+    phase1: train
+    is_aligned: true
+    degradation: blr
+    dictpath: s3://kepengxu/vfhqfull/pad_5landmark_matrix.txt
+    io_backend:
+      type: ntme
+
+    use_hflip: true
+    # mean: [0.5, 0.5, 0.5]
+    # std: [0.5, 0.5, 0.5]
+
+    # data loader
+    use_shuffle: true
+    num_worker_per_gpu: 4
+    batch_size_per_gpu: 1
+    dataset_enlarge_ratio: 1
+    prefetch_mode: ~
+
+  val:
+    name: VFHQFULLntmeBASIC_ALIGNTESTUP
+    type: VFHQFULLntmeBASICV2TESTUP
+    r: 1
+    root: s3://kepengxu/vfhqfull/ntme/
+    phase1: test
+    is_aligned: true
+    degradation: blr
+    dictpath: s3://kepengxu/vfhqfull/pad_5landmark_matrix.txt
+    range: [0, 1]
+    io_backend:
+      type: ntme
+
+
+
+
+
+# network structures
+network_g:
+  type: TRQCodeFormer
+
+  bottleneck_type: rq
+  embed_dim: 512
+  n_embed: 1024
+  latent_shape: [ 32, 32, 512 ]
+  code_shape: [ 32, 32, 1 ]
+  shared_codebook: true
+  decay: 0.99
+  restart_unused_codes: true
+
+  loss_type: mse
+  latent_loss_weight: 0.25
+  tf: 3
+  ddconfig:
+    double_z: false
+    z_channels: 256
+    resolution: 512
+    in_channels: 3
+    stages_atten: 4
+    window_size: [5,5,5]
+    num_head: 8
+    out_ch: 3
+    ch: 64
+    ch_mult: [ 1, 2, 4, 4, 8]
+    depths: [2, 2, 2, 2, 2]
+    num_heads: [8,8,8,8,8]
+    # ch_mult: [ 1, 1, 2, 2, 4, 4]
+    window_sizes: [[4,4], [4,4], [4,4], [4,4], [4,4]]
+    num_frames: 3
+    num_res_blocks: 1
+    attn_resolutions: [ 32,64,128]
+    dropout: 0.00
+
+
+network_gt:
+  type: TDCRQVAE3
+
+  bottleneck_type: rq
+  embed_dim: 512
+  n_embed: 1024
+  latent_shape: [ 32, 32, 512 ]
+  code_shape: [ 32, 32, 1 ]
+  shared_codebook: true
+  decay: 0.99
+  restart_unused_codes: true
+
+  loss_type: mse
+  latent_loss_weight: 0.25
+  tf: 3
+  ddconfig:
+    double_z: false
+    z_channels: 256
+    resolution: 512
+    in_channels: 3
+    stages_atten: 4
+    window_size: [5,5,5]
+    num_head: 8
+    out_ch: 3
+    ch: 64
+    ch_mult: [ 1, 2, 4, 4, 8]
+    depths: [2, 2, 2, 2, 2]
+    num_heads: [8,8,8,8,8]
+    # ch_mult: [ 1, 1, 2, 2, 4, 4]
+    window_sizes: [[4,4], [4,4], [4,4], [4,4], [4,4]]
+    num_frames: 3
+    num_res_blocks: 1
+    attn_resolutions: [ 32,64,128]
+    dropout: 0.00
+
+
+
+# network_d:
+#   type: VQGANDiscriminator
+#   n_layers: 3
+
+
+# path ,中断后训练
+path:
+  pretrain_network_g: s3://kepengxu/codeformerweights/basicfsr/xukepeng/train_tdcrqvae3_2_0_arch_300k/net_g_300000.pth
+  strict_load_g: false
+  param_key_g: params_ema
+  pretrain_network_gt: s3://kepengxu/codeformerweights/basicfsr/xukepeng/train_tdcrqvae3_2_0_arch_300k/net_g_300000.pth
+  strict_load_gt: true
+  param_key_gt: params_ema
+  resume_state: ~
+  s3_model_path: s3://kepengxu/codeformerweights
+ 
+
+# training settings
+train:
+  code_only: true
+  ema_decay: 0.999
+  amp_enable: true
+  
+  optim_g:
+    type: Adam
+    lr: !!float 8e-5
+    weight_decay: 0
+    betas: [ 0.5, 0.9 ]
+
+  optim_d:
+    type: Adam
+    lr: !!float 8e-5
+    weight_decay: 0
+    betas: [ 0.5, 0.9 ]
+
+  scheduler:
+    type: MultiStepLR
+    milestones: [400000]
+    gamma: 0.5
+
+  total_iter: 400000
+  warmup_iter: -1  # no warm up
+  # gan_start_iter: 20000
+
+  # losses
+  token_opt:
+    type: CrossEntropyLoss
+    loss_weight: !!float 0.5
+
+
+  feat_opt:
+    type: MSELoss
+    loss_weight: !!float 1.0
+
+  
+  # pixel_opt:
+  #   type: L1Loss
+  #   loss_weight: !!float 1.0
+  #   reduction: mean
+
+  # perceptual_opt:
+  #   type: LPIPSLoss
+
+  # # losses
+  # gan_opt:
+  #   type: GANLoss
+  #   gan_type: hinge
+  #   loss_weight: !!float 1.
+
+
+# validation settings
+val:
+  val_freq: !!float 2e4
+  save_img: true
+
+  metrics:
+    niqe: # metric name, can be arbitrary
+      type: calculate_niqe
+      crop_border: 0
+      test_y_channel: false
+      better: lower
+    psnr: # metric name, can be arbitrary
+      type: calculate_psnr
+      crop_border: 0
+      test_y_channel: false
+      better: higher  # the higher, the better. Default: higher
+    ssim:
+      type: calculate_ssim
+      crop_border: 0
+      test_y_channel: false
+      better: higher
+    lipips:
+      type: calculate_lpips
+      crop_border: 0
+      input_order: HWC
+      test_y_channel: false
+    # fid:
+    #   type: calculate_fid
+    #   crop_border: 0
+    #   test_y_channel: false
+
+# logging settings
+logger:
+  print_freq: 100
+  save_checkpoint_freq: !!float 1e4
+  use_tb_logger: true
+  wandb:
+    project: ~
+    resume_id: ~
+
+# dist training settings
+dist_params:
+  backend: nccl
+  port: 29500
+
+find_unused_parameters: True
