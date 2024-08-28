@@ -76,6 +76,27 @@
   <br>
 </p>
 
+<p align="center">
+  <img src="./assets/038.gif" alt="showcase">
+  <br>
+ 
+  <br>
+</p>
+
+<p align="center">
+  <img src="./assets/044.gif" alt="showcase">
+  <br>
+ 
+  <br>
+</p>
+
+<p align="center">
+  <img src="./assets/048.gif" alt="showcase">
+  <br>
+ 
+  <br>
+</p>
+
 
 
 

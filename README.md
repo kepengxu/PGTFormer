@@ -26,7 +26,7 @@
 <p align="center">
   <img src="./assets/output.gif" alt="showcase">
   <br>
-  🔥 For more results, visit our <a href="https://kepengxu.github.io/projects/pgtformer/"><strong>project page</strong></a> 🔥
+  🔥 For more results, visit our <a href="https://kepengxu.github.io/projects/pgtformer/"><strong>project page</strong>,<a href="https://github.com/kepengxu/PGTFormer/blob/main/MoreVideoResults.md"><strong>gif page</strong></a> 🔥
   <br>
   ⭐ If you found this project helpful to your projects, please help star this repo. Thanks! 🤗
 </p>
