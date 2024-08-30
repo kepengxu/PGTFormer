@@ -37,10 +37,8 @@
 if you have any questions; please send message to me via Wechat or email: kepengxu11@gmail.com
 
 <p align="center">
-  <img src="./assets/vx.png" alt="Wechat">
+  <img src="./assets/vx.png" alt="Wechat" width="200">
 </p>
-
-</div>
 
 
 # Update
