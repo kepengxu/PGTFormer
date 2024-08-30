@@ -34,6 +34,15 @@
 </div>
 
 
+if you have any questions; please send message to me via Wechat or email: kepengxu11@gmail.com
+
+<p align="center">
+  <img src="./assets/vx.png" alt="Wechat">
+</p>
+
+</div>
+
+
 # Update
 - **2024.08**: We released the initial version of the inference code and models. Stay tuned for continuous updates!
 - **2024.04**: This repo is created!
