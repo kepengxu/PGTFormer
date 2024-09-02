@@ -22,6 +22,8 @@ from torch.utils.checkpoint import checkpoint
 from typing import Iterable
 from basicsr.archs import ARCH_REGISTRY
 
+from huggingface_hub import PyTorchModelHubMixin
+
 import sys
 import os
 sys.path.append(os.getcwd())
