@@ -70,7 +70,7 @@ conda install -c conda-forge ffmpeg
 
 ### Download Pre-trained Models
 All pretrained models can also be automatically downloaded during the first inference.
-You can also download our pretrained models from [Google Drive](https://drive.google.com/file/d/1DFwfPpiIxqjd-PrQ7zoKlVF4HqTM0Ops/view?usp=sharing),[BaiduYun](https://pan.baidu.com/s/1pN0u6ITT-JUFg9-PhgUkrg?pwd=pgtf) to the `weights` folder.
+You can also download our pretrained models from [Google Drive](https://drive.google.com/file/d/1DFwfPpiIxqjd-PrQ7zoKlVF4HqTM0Ops/view?usp=sharing),[BaiduYun](https://pan.baidu.com/s/1pN0u6ITT-JUFg9-PhgUkrg?pwd=pgtf),[Huggingface](https://huggingface.co/kepeng/pgtformer-base) to the `weights` folder.
 
 
 ### Prepare Testing Data
