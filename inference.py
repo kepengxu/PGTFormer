@@ -112,9 +112,10 @@ def load_architecture(weights='weights/weights.pth'):
     with open('options/release_test_stage_IIII_dont_need_align_version.yml', mode='r') as f:
         opt = yaml.load(f, Loader=ordered_yaml()[0])
     ooo = opt['network_g']
-    network = PGTFormer(**ooo).cuda()
-    state_dict = torch.load(weights)
-    network.load_state_dict(state_dict=state_dict['params_ema'])
+    # network = PGTFormer(**ooo).cuda()
+    # state_dict = torch.load(weights)
+    # network.load_state_dict(state_dict=state_dict['params_ema'])
+    model = PGTFormer.from_pretrained("kepeng/pgtformer-base")
     network.eval()
     network.requires_grad_(False)
     return network
