@@ -22,6 +22,8 @@ from torch.utils.checkpoint import checkpoint
 from typing import Iterable
 from basicsr.archs import ARCH_REGISTRY
 
+from huggingface_hub import PyTorchModelHubMixin
+
 import sys
 import os
 sys.path.append(os.getcwd())
@@ -706,7 +708,7 @@ class Decoder(nn.Module):
 
 
 @ARCH_REGISTRY.register()
-class TDCRQVAE3(nn.Module):
+class TDCRQVAE3(nn.Module, PyTorchModelHubMixin, repo_url="https://github.com/kepengxu/PGTFormer", pipeline_tag="image-to-image"):
     def __init__(self,
                  *,
                  embed_dim=64,
