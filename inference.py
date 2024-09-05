@@ -116,9 +116,9 @@ def load_architecture(weights='weights/weights.pth'):
     # state_dict = torch.load(weights)
     # network.load_state_dict(state_dict=state_dict['params_ema'])
     model = PGTFormer.from_pretrained("kepeng/pgtformer-base")
-    network.eval()
-    network.requires_grad_(False)
-    return network
+    model.eval()
+    model.requires_grad_(False)
+    return model
 
 if __name__ == "__main__":
     import argparse
