@@ -42,7 +42,7 @@ if you have any questions; please send message to me via Wechat or email: kepeng
 
 
 # Update
-- **2024.09**: Update Windows inference script.
+- **2024.09**: Update Windows inference script.(Thanks @KFK121)
 - **2024.08**: 🤗 This model has been successfully pushed to the Hugging Face **kepeng/pgtformer-base**, making it accessible to researchers and developers worldwide. Feel free to explore, test, and utilize it
 - **2024.08**: We released the initial version of the inference code and models. Stay tuned for continuous updates!
 - **2024.04**: This repo is created!
