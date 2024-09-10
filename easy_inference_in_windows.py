@@ -44,20 +44,20 @@ def process_video_save_frames(input_path, output_folder, model):
         ret, frame = cap.read()
         if not ret:
             break
-        
+
         # Add the current frame to the buffer
         frame_buffer.append(frame)
-        
+
         # If there are three frames in the buffer, process them
         if len(frame_buffer) == 3:
             # Process the three frames
             processed_frame = apply_net_to_frames(frame_buffer, model)
-            
+
             # Save the processed frame to the output folder
             frame_filename = os.path.join(output_folder, f"frame_{frame_count:04d}.png")
             cv2.imwrite(frame_filename, processed_frame)
             frame_count += 1
-            
+
             # Remove the first frame from the buffer and continue
             frame_buffer.pop(0)
 
@@ -67,22 +67,9 @@ def process_video_save_frames(input_path, output_folder, model):
         processed_frame = apply_net_to_frames(frame_buffer, model)
         frame_filename = os.path.join(output_folder, f"frame_{frame_count:04d}.png")
         cv2.imwrite(frame_filename, processed_frame)
-    
+
     # Release the video capture
     cap.release()
-
-def create_video_from_frames(output_folder, output_video, fps, width, height):
-    # Use FFmpeg to create a video from the saved frames
-    ffmpeg_command = [
-        'ffmpeg_lib/ffmpeg', '-y',  # '-y' means overwrite the output file
-        '-framerate', str(fps), 
-        '-i', os.path.join(output_folder, 'frame_%04d.png'),  # Input frames pattern
-        '-s', f'{width}x{height}',  # Frame size
-        '-vcodec', 'libx265', '-crf', '18', '-tag:v', 'hvc1',  # Encoding options
-        output_video
-    ]
-    
-    subprocess.run(ffmpeg_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 
 import yaml
@@ -113,11 +100,24 @@ def ordered_yaml():
     return Loader, Dumper
 
 
+def create_video_from_frames(output_folder, output_video, fps, width, height):
+    # Use FFmpeg to create a video from the saved frames
+
+    ffmpeg_command = [
+        r'ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe', '-y',  # Here to set your own ffmpeg path(这里放自己ffmpeg的路径)
+        '-framerate', str(fps),
+        '-i', os.path.join(output_folder, 'frame_%04d.png'),  # Input frames pattern
+        '-s', f'{width}x{height}',  # Frame size
+        '-vcodec', 'libx265', '-crf', '18', '-tag:v', 'hvc1',  # Encoding options
+        output_video
+    ]
+
+    subprocess.run(ffmpeg_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 def load_architecture(weights='weights/weights.pth'):
     from archs.pgtformer_arch import PGTFormer
     import yaml
-    with open('options/release_test_stage_IIII_dont_need_align_version.yml', mode='r') as f:
+    with open('options/release_test_stage_IIII_dont_need_align_version.yml', mode='r', encoding='utf-8') as f:
         opt = yaml.load(f, Loader=ordered_yaml()[0])
     ooo = opt['network_g']
     # network = PGTFormer(**ooo).cuda()
@@ -130,48 +130,52 @@ def load_architecture(weights='weights/weights.pth'):
 
 if __name__ == "__main__":
     import argparse
+
     # Create ArgumentParser object
     parser = argparse.ArgumentParser(description="Process video frames and save to folder")
 
     # Add input video argument, default to "assets/inputdemovideo.mp4"
     parser.add_argument(
-        "-i", "--input_video", 
-        type=str, 
-        default="assets/inputdemovideo.mp4", 
+        "-i", "--input_video",
+        type=str,
+        default="assets/inputdemovideo.mp4",
         help="Input video file path"
     )
 
     # Add output folder for frames, default to "exp/frames"
     parser.add_argument(
-        "-f", "--output_folder", 
-        type=str, 
-        default="exp/frames", 
+        "-f", "--output_folder",
+        type=str,
+        default="exp/frames",
         help="Output folder for frames"
     )
 
     # Add output video argument, default to "exp/output_demo.mp4"
     parser.add_argument(
-        "-o", "--output_video", 
-        type=str, 
-        default="exp/output_demo.mp4", 
+        "-o", "--output_video",
+        type=str,
+        default="exp/output_demo.mp4",
         help="Output video file path"
     )
 
     # Parse arguments
     args = parser.parse_args()
-    
+
     # Get basic information about the input video (width, height, frame rate)
     cap = cv2.VideoCapture(args.input_video)
     fps = int(cap.get(cv2.CAP_PROP_FPS))
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     cap.release()
-    
+
     # Load the model
     model = load_architecture()
-    
+
     # Process the video and save frames
     process_video_save_frames(args.input_video, args.output_folder, model)
-    
+
+    print(f"Frames saved to {args.output_folder}")
+
     # Create a video from the saved frames
     create_video_from_frames(args.output_folder, args.output_video, fps, width, height)
+    print(f"Video saved to {args.output_video}")
